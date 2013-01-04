@@ -14,5 +14,6 @@ while True:
     for fn in os.listdir(args.path):
         target = os.path.join(args.path, fn)
         if os.path.isdir(target) and '.git' in os.listdir(target):
-            os.system('pushd %s && git pull --rebase && popd' % target)
+            print ' -- %s' % fn
+            os.system('(cd %s && git pull --rebase)' % target)
     time.sleep(args.timeout)
