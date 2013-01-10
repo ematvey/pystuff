@@ -3,6 +3,7 @@
 import os
 import time
 import argparse
+import datetime
 
 ap = argparse.ArgumentParser(prog='Git autopuller')
 ap.add_argument('-p', '--path', help='Path of folder which subfolders are to update', default='.')
@@ -11,9 +12,11 @@ args = ap.parse_args()
 
 print "running git-pull on '%s' with delay '%s'" % (args.path, args.timeout)
 while True:
+    print '\n%s - pulling' % datetime.datetime.now()
     for fn in os.listdir(args.path):
         target = os.path.join(args.path, fn)
         if os.path.isdir(target) and '.git' in os.listdir(target):
             print ' -- %s' % fn
             os.system('(cd %s && git pull --rebase)' % target)
+    print 'waiting for %s seconds' % args.timeout
     time.sleep(args.timeout)
